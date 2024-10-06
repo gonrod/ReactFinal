@@ -1,26 +1,43 @@
 // src/components/NavBar/NavBar.jsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
-import './NavBar.css'; // Crea un archivo CSS para estilos personalizados
+import useFetchCategories from '../../hooks/useFetchCategories';
+import './NavBar.css';
 
 const NavBar = () => {
+  const { categories, loading } = useFetchCategories();
+
+  console.log('Categorías obtenidas desde Firebase:', categories);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
-      <Link className="navbar-brand" to="/">Mi Tienda</Link>
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav me-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/vehiculos">Vehículos</Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-brand">Mi Tienda</Link>
+        <ul className="navbar-links">
+          {/* Menú desplegable de categorías */}
+          <li className="dropdown">
+            <button className="dropdown-button">Categorías</button>
+            <ul className="dropdown-menu">
+              {!loading && categories.length > 0 ? (
+                categories.map((category) => (
+                  <li key={category.id}>
+                    <Link to={`/category/${category.id}`}>{category.name}</Link>
+                  </li>
+                ))
+              ) : (
+                <li>Cargando categorías...</li>
+              )}
+            </ul>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/category/bicicletas">Bicicletas</Link>
+          {/* Link al carrito */}
+          <li>
+            <Link to="/cart" className="cart-widget">
+              <CartWidget />
+            </Link>
           </li>
         </ul>
-        <CartWidget />
       </div>
     </nav>
   );
