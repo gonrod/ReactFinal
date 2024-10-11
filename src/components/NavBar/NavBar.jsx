@@ -1,5 +1,3 @@
-// src/components/NavBar/NavBar.jsx
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
@@ -23,7 +21,10 @@ const NavBar = () => {
               {!loading && categories.length > 0 ? (
                 categories.map((category) => (
                   <li key={category.id}>
-                    <Link to={`/category/${category.id}`}>{category.name}</Link>
+                    {/* Movemos el <Link> para que abarque todo el <li> */}
+                    <Link to={`/category/${category.id}`} className="full-clickable">
+                      {category.name}
+                    </Link>
                   </li>
                 ))
               ) : (

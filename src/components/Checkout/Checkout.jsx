@@ -11,14 +11,21 @@ const Checkout = () => {
 
   const handleConfirmPurchase = async (event) => {
     event.preventDefault();
-    const { name, email, address } = event.target.elements;
+    const { firstName, lastName, phone, email, confirmEmail } = event.target.elements;
+
+    // Validar que los correos electrónicos coincidan
+    if (email.value !== confirmEmail.value) {
+      alert("Los correos electrónicos no coinciden");
+      return;
+    }
 
     // Crear la orden con los datos del carrito y el formulario
     const order = {
       buyer: {
-        name: name.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        phone: phone.value,
         email: email.value,
-        address: address.value,
       },
       items: cartItems.map((item) => ({
         id: item.id,
@@ -37,7 +44,7 @@ const Checkout = () => {
       navigate(`/checkout-success/${docRef.id}`); // Redirigir a una página de éxito
     } catch (error) {
       console.error('Error al crear la orden:', error);
-      navigate('/checkout-failed'); // Redirigir a una página de error en caso de fallo
+      // navigate('/checkout-failed'); // Redirigir a una página de error en caso de fallo
     }
   };
 
@@ -73,8 +80,22 @@ const Checkout = () => {
           <form className="checkout-form" onSubmit={handleConfirmPurchase}>
             <input
               type="text"
-              name="name"
+              name="firstName"
               placeholder="Nombre"
+              className="checkout-input"
+              required
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Apellido"
+              className="checkout-input"
+              required
+            />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Teléfono"
               className="checkout-input"
               required
             />
@@ -86,9 +107,9 @@ const Checkout = () => {
               required
             />
             <input
-              type="text"
-              name="address"
-              placeholder="Dirección"
+              type="email"
+              name="confirmEmail"
+              placeholder="Confirmar Correo Electrónico"
               className="checkout-input"
               required
             />

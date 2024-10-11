@@ -91,21 +91,21 @@
   display: block;
 }
 
-.dropdown-menu li {
-  padding: 10px 20px;
+/* Asegurarse de que el enlace abarque todo el área del <li> */
+.navbar .dropdown-menu li {
+  padding: 0; /* Elimina el padding del li */
+  list-style: none;
+}
+
+.navbar .dropdown-menu li a {
+  display: block; /* Hace que el enlace sea un bloque para abarcar todo el li */
+  padding: 10px 20px; /* Define el área clickeable del enlace */
+  text-decoration: none;
+  color: black;
   transition: background-color 0.3s ease;
 }
 
-.dropdown-menu li a {
-  text-decoration: none;
-  color: #333;
-  transition: color 0.3s ease;
-}
-
-.dropdown-menu li:hover {
-  background-color: #f1f1f1;
-}
-
-.dropdown-menu li a:hover {
-  color: #007bff;
+.navbar .dropdown-menu li a:hover {
+  background-color: #f1f1f1; /* Añade el efecto hover en todo el área clickeable */
+  color: black;
 }
